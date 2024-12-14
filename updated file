@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Journal App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif; 
+      margin: 20px;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    textarea, input, select, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dream Journal</h1>
+  <form id="dreamForm">
+    <h2>Daily Dream Entry</h2>
+    <label for="recall">Dream Recall</label>
+    <textarea id="recall" placeholder="Describe your dream in as much detail as you can..." required></textarea>
+
+    <label for="emotionalReflection">Emotional Reflection</label>
+    <textarea id="emotionalReflection" placeholder="How did the dream make you feel? Any connections to life events?" required></textarea>
+
+    <label for="actionableInsights">Actionable Insights</label>
+    <textarea id="actionableInsights" placeholder="Does this dream suggest ideas, solutions, or perspectives?" required></textarea>
+
+    <h2>Goal Setting & Manifestation</h2>
+    <label for="goalReflection">Dream Incubation</label>
+    <textarea id="goalReflection" placeholder="What problem could/did your dream help solve today?" required></textarea>
+
+    <button type="submit">Save Entry</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('dreamForm');
+    const googleScriptURL = https://script.google.com/macros/s/AKfycbzmROM68rJW8KvkEc2mk86NFasU11vCyJ7eW8XgsPH1uAVO7Vjx3q2JKnQFIZ77kK_ocQ/exec;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const entryDate = new Date().toISOString().split('T')[0];
+      const data = {
+        date: entryDate,
+        recall: document.getElementById('recall').value,
+        emotionalReflection: document.getElementById('emotionalReflection').value,
+        actionableInsights: document.getElementById('actionableInsights').value,
+        goalReflection: document.getElementById('goalReflection').value
+      };
+
+      fetch(googleScriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Your entry has been saved!');
+          form.reset();
+        } else {
+          alert('Error saving entry.');
+        }
+      })
+      .catch(err => alert('Error: ' + err.message));
+    });
+  </script>
+</body>
+</html>
